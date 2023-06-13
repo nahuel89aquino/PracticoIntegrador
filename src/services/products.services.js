@@ -1,4 +1,5 @@
 import {ProductModel} from "../DAO/models/product.model.js";
+import { PORT } from "../utils.js";
 
 export class ProductService{
     async getAll(){
@@ -10,17 +11,42 @@ export class ProductService{
             throw error.message;
         }
     }
-    getSome(limit=null){
-        const products = this.getAll();
-        if (!limit){
-            return products;
-        }
-        if (limit <= products.length || limit === 0){
-            const sliceProd = products.slice(null,limit);
-            return sliceProd;
+    async getSome({sort,query,req,limit=10,page=1}){
+        const protocol = req.protocol; 
+        const host = req.hostname;
+        const url  = req.baseUrl;
+        const port = PORT;
+        const link = protocol +'://'+host+':'+port+url+'?page=';
+        const pag = page;
+        try {
+            const options = {
+                page:pag,
+                limit:limit,
+                sort:{price:sort}
+            };
+            const {docs,totalPages,
+                prevPage,
+                nextPage,
+                page,
+                hasPrevPage,
+                hasNextPage
+                } = await ProductModel.paginate(query,options);
+
+            return {
+                docs,
+                totalPages,
+                prevPage,
+                nextPage,
+                page,
+                hasPrevPage,
+                hasNextPage,
+                prevLink: hasPrevPage ? `${link}${prevPage}` : null,
+                nextLink: hasNextPage ? `${link}${nextPage}` : null
+            };
+
+        } catch (error) {
+            throw new Error(error.message);
             
-        }else{
-            throw new Error("Limit not found!");
         }
     }
     async getById(pid){

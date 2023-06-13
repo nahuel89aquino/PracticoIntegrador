@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
 
+export const PORT = 8080;
 export async function connectToMongo(){
     const authSource = 'messages-chat';
     try{

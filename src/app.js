@@ -1,11 +1,11 @@
 import express from 'express';
-import {__dirname, connectToMongo } from './utils.js';
+import {__dirname, connectToMongo, PORT } from './utils.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-import router from './routes/views.router.js';
+// import router from './routes/views.router.js';
 import routerProducts from './routes/products.router.js';
 
-const PORT = 8080;
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -19,19 +19,18 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(__dirname+'/public'));
 
-app.use('/',router);
-app.use('/products',routerProducts);
+app.use('/api/products',routerProducts);
 
 connectToMongo();
 
 let messages = [];
-io.on('connection',socket=>{
-    console.log('nuevo cliente conectado');
-    socket.on('message',data => {
-        messages.push(data);
-        console.log(messages)
-        io.emit('messageLogs',messages);
-    })
-});
+// io.on('connection',socket=>{
+//     console.log('nuevo cliente conectado');
+//     socket.on('message',data => {
+//         messages.push(data);
+//         console.log(messages)
+//         io.emit('messageLogs',messages);
+//     })
+// });
 
 

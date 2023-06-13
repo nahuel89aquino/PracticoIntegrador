@@ -6,10 +6,12 @@ const routerProducts = Router();
 const prodManger = new ProductManager("./productos.json");
 const prodService = new ProductService();
 
-routerProducts.get("/", (req,res) =>{
+routerProducts.get("/", async (req,res) =>{
+    const {limit,sort,page,...query} = req.query;
     try {
-        const products = prodService.getAll(req.query.limit);
-        return res.status(200).json({status:"success", products});
+        const products = await prodService.getSome({limit,sort,req,page,query});
+        const {docs, ...infoPag} = products;
+        return res.status(200).json({status:"success", payload:docs,...infoPag});
         
     } catch (error) {
         return res.status(400).json({status:"error", payload: error.message})
