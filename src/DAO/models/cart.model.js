@@ -8,10 +8,18 @@ quantity
 import { Schema,model } from "mongoose";
 
 const schema = new Schema({
-    products:[{
-        id_product:{type:String,required:true},
-        quentity:{type:Number,default:1}
-    }]
+    products:
+        {
+        type:[
+            {
+                product:{
+                    type: Schema.Types.ObjectId,
+                    ref:'product'
+                    }
+            }
+        ],
+        default:[]
+    }
 });
 
-export default cartModel = model('cart', schema);
+export const CartModel = model('cart', schema);

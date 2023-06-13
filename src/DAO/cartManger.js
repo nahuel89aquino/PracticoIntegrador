@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { generateUniqueID } from '../utils/id.js';
+import { generateUniqueID } from '../utils.js';
 
 class CartManager {
     path;

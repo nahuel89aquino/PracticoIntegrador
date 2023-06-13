@@ -4,6 +4,7 @@ import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 // import router from './routes/views.router.js';
 import routerProducts from './routes/products.router.js';
+import routerCarts from './routes/carts.router.js';
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname+'/public'));
 
 app.use('/api/products',routerProducts);
+app.use('/api/carts',routerCarts);
 
 connectToMongo();
 
