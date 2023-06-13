@@ -15,7 +15,8 @@ const schema = new Schema({
                 product:{
                     type: Schema.Types.ObjectId,
                     ref:'product'
-                    }
+                    },
+                quantity:{type:String}
             }
         ],
         default:[]

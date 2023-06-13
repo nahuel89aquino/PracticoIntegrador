@@ -17,7 +17,7 @@ export class CartServices{
     async addProdToCart(cid,pid,cant){
         try {
             let cart = await CartModel.findById(cid).populate('products.product');
-            cart.products.push({product:pid});
+            cart.products.push({product:pid,quantity:cant});
             await CartModel.updateOne({_id:cid},cart)
             return cart;
         } catch (error) {
